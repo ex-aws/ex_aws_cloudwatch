@@ -19,30 +19,31 @@ defmodule ExAws.Cloudwatch do
   use ExAws.Utils,
     format_type: :xml,
     non_standard_keys: %{}
-  #version of the AWS API
+
+  # version of the AWS API
   @version "2010-08-01"
 
   @type param :: {key :: atom, value :: binary}
   @type action :: [
-    type: binary,
-    target_group_arn: binary
-  ]
+          type: binary,
+          target_group_arn: binary
+        ]
   @type dimension :: {name :: binary | atom, value :: binary}
   @type metric_datum :: [
-    dimensions: [dimension, ...],
-    metric_name: binary,
-    statistic_values: statistic_set,
-    storage_resolution: integer,
-    timestamp: %DateTime{},
-    unit: binary,
-    value: float
-  ]
+          dimensions: [dimension, ...],
+          metric_name: binary,
+          statistic_values: statistic_set,
+          storage_resolution: integer,
+          timestamp: %DateTime{},
+          unit: binary,
+          value: float
+        ]
   @type statistic_set :: [
-    maximum: float,
-    minimum: float,
-    sample_count: float,
-    sum: float
-  ]
+          maximum: float,
+          minimum: float,
+          sample_count: float,
+          sum: float
+        ]
 
   @doc """
   Deletes the specified alarms.
@@ -97,13 +98,13 @@ defmodule ExAws.Cloudwatch do
         parser: &ExAws.Cloudwatch.Parsers.parse/2, path: "/", service: :monitoring}
   """
   @type describe_alarm_history_opts :: [
-    alarm_name: binary,
-    history_item_type: binary,
-    start_date: %DateTime{},
-    end_date: %DateTime{},
-    max_records: integer,
-    next_token: binary
-  ]
+          alarm_name: binary,
+          history_item_type: binary,
+          start_date: %DateTime{},
+          end_date: %DateTime{},
+          max_records: integer,
+          next_token: binary
+        ]
   @spec describe_alarm_history() :: ExAws.Operation.Query.t()
   @spec describe_alarm_history(opts :: describe_alarm_history_opts) :: ExAws.Operation.Query.t()
   def describe_alarm_history(opts \\ []) do
@@ -123,13 +124,13 @@ defmodule ExAws.Cloudwatch do
         parser: &ExAws.Cloudwatch.Parsers.parse/2, path: "/", service: :monitoring}
   """
   @type describe_alarm_opts :: [
-    alarm_names: [binary, ...],
-    alarm_name_prefix: binary,
-    state_value: binary,
-    action_prefix: binary,
-    max_records: integer,
-    next_token: binary
-  ]
+          alarm_names: [binary, ...],
+          alarm_name_prefix: binary,
+          state_value: binary,
+          action_prefix: binary,
+          max_records: integer,
+          next_token: binary
+        ]
   @spec describe_alarms() :: ExAws.Operation.Query.t()
   @spec describe_alarms(opts :: describe_alarm_opts) :: ExAws.Operation.Query.t()
   def describe_alarms(opts \\ []) do
@@ -151,21 +152,21 @@ defmodule ExAws.Cloudwatch do
         parser: &ExAws.Cloudwatch.Parsers.parse/2, path: "/", service: :monitoring}
   """
   @type describe_alarms_for_metric_opts :: [
-    statistic: binary,
-    extended_statistic: binary,
-    dimensions: [dimension, ...],
-    period: integer,
-    unit: binary
-  ]
+          statistic: binary,
+          extended_statistic: binary,
+          dimensions: [dimension, ...],
+          period: integer,
+          unit: binary
+        ]
   @spec describe_alarms_for_metric(
-    metric_name :: binary,
-    namespace :: binary
-    ) :: ExAws.Operation.Query.t()
+          metric_name :: binary,
+          namespace :: binary
+        ) :: ExAws.Operation.Query.t()
   @spec describe_alarms_for_metric(
-    metric_name :: binary,
-    namespace :: binary,
-    opts :: describe_alarms_for_metric_opts
-  ) :: ExAws.Operation.Query.t()
+          metric_name :: binary,
+          namespace :: binary,
+          opts :: describe_alarms_for_metric_opts
+        ) :: ExAws.Operation.Query.t()
   def describe_alarms_for_metric(metric_name, namespace, opts \\ []) do
     [
       {:metric_name, metric_name},
@@ -226,8 +227,8 @@ defmodule ExAws.Cloudwatch do
       parser: &ExAws.Cloudwatch.Parsers.parse/2, path: "/", service: :monitoring}
   """
   @type get_dashboard_opts :: [
-    dashboard_name: binary
-  ]
+          dashboard_name: binary
+        ]
   @spec get_dashboard() :: ExAws.Operation.Query.t()
   @spec get_dashboard(opts :: get_dashboard_opts) :: ExAws.Operation.Query.t()
   def get_dashboard(opts \\ []) do
@@ -291,13 +292,26 @@ defmodule ExAws.Cloudwatch do
       parser: &ExAws.Cloudwatch.Parsers.parse/2, path: "/", service: :monitoring}
   """
   @type get_metric_statistics_opts :: [
-    dimensions: [dimension, ...],
-    statistics: [binary, ...],
-    extended_statistics: [binary, ...],
-    unit: binary
-  ]
-  @spec get_metric_statistics(namespace :: binary, metric_name :: binary, start_time :: %DateTime{}, end_time :: %DateTime{}, period :: integer) :: ExAws.Operation.Query.t()
-  @spec get_metric_statistics(namespace :: binary, metric_name :: binary, start_time :: %DateTime{}, end_time :: %DateTime{}, period :: integer, opts :: get_metric_statistics_opts) :: ExAws.Operation.Query.t()
+          dimensions: [dimension, ...],
+          statistics: [binary, ...],
+          extended_statistics: [binary, ...],
+          unit: binary
+        ]
+  @spec get_metric_statistics(
+          namespace :: binary,
+          metric_name :: binary,
+          start_time :: %DateTime{},
+          end_time :: %DateTime{},
+          period :: integer
+        ) :: ExAws.Operation.Query.t()
+  @spec get_metric_statistics(
+          namespace :: binary,
+          metric_name :: binary,
+          start_time :: %DateTime{},
+          end_time :: %DateTime{},
+          period :: integer,
+          opts :: get_metric_statistics_opts
+        ) :: ExAws.Operation.Query.t()
   def get_metric_statistics(namespace, metric_name, start_time, end_time, period, opts \\ []) do
     [
       {:namespace, namespace},
@@ -323,9 +337,9 @@ defmodule ExAws.Cloudwatch do
         parser: &ExAws.Cloudwatch.Parsers.parse/2, path: "/", service: :monitoring}
   """
   @type list_dashboards_opts :: [
-    dashboard_name_prefix: binary,
-    next_token: binary
-  ]
+          dashboard_name_prefix: binary,
+          next_token: binary
+        ]
   @spec list_dashboards() :: ExAws.Operation.Query.t()
   @spec list_dashboards(opts :: list_dashboards_opts) :: ExAws.Operation.Query.t()
   def list_dashboards(opts \\ []) do
@@ -354,11 +368,11 @@ defmodule ExAws.Cloudwatch do
         parser: &ExAws.Cloudwatch.Parsers.parse/2, path: "/", service: :monitoring}
   """
   @type list_metrics_opts :: [
-    namespace: binary,
-    metric_name: binary,
-    dimensions: [dimension, ...],
-    next_token: binary
-  ]
+          namespace: binary,
+          metric_name: binary,
+          dimensions: [dimension, ...],
+          next_token: binary
+        ]
   @spec list_metrics() :: ExAws.Operation.Query.t()
   @spec list_metrics(opts :: list_metrics_opts) :: ExAws.Operation.Query.t()
   def list_metrics(opts \\ []) do
@@ -395,7 +409,8 @@ defmodule ExAws.Cloudwatch do
         "DashboardName" => "dashboard_name", "Version" => "2010-08-01"},
       parser: &ExAws.Cloudwatch.Parsers.parse/2, path: "/", service: :monitoring}
   """
-  @spec put_dashboard(dashboard_name :: binary, dashboard_body :: binary) :: ExAws.Operation.Query.t()
+  @spec put_dashboard(dashboard_name :: binary, dashboard_body :: binary) ::
+          ExAws.Operation.Query.t()
   def put_dashboard(dashboard_name, dashboard_body) do
     [{:dashboard_name, dashboard_name}, {:dashboard_body, dashboard_body}]
     |> build_request(:put_dashboard)
@@ -453,20 +468,49 @@ defmodule ExAws.Cloudwatch do
         parser: &ExAws.Cloudwatch.Parsers.parse/2, path: "/", service: :monitoring}
   """
   @type put_metric_alarm_opts :: [
-    actions_enabled: boolean,
-    alarm_actions: [binary, ...],
-    alarm_description: binary,
-    dimensions: [dimension, ...],
-    evaluate_low_sample_count_percentile: binary,
-    extended_statistic: binary,
-    insufficient_data_actions: [binary, ...],
-    ok_actions: [binary, ...],
-    treat_missing_data: binary,
-    unit: binary
-  ]
-  @spec put_metric_alarm(alarm_name :: binary, comparison_operator :: binary, evaluation_periods :: integer, metric_name :: binary, namespace :: binary, period :: integer, threshold :: float, statistic :: binary) :: ExAws.Operation.Query.t()
-  @spec put_metric_alarm(alarm_name :: binary, comparison_operator :: binary, evaluation_periods :: integer, metric_name :: binary, namespace :: binary, period :: integer, threshold :: float, statistic :: binary, opts :: put_metric_alarm_opts) :: ExAws.Operation.Query.t()
-  def put_metric_alarm(alarm_name, comparison_operator, evaluation_periods, metric_name, namespace, period, threshold, statistic, opts \\ []) do
+          actions_enabled: boolean,
+          alarm_actions: [binary, ...],
+          alarm_description: binary,
+          dimensions: [dimension, ...],
+          evaluate_low_sample_count_percentile: binary,
+          extended_statistic: binary,
+          insufficient_data_actions: [binary, ...],
+          ok_actions: [binary, ...],
+          treat_missing_data: binary,
+          unit: binary
+        ]
+  @spec put_metric_alarm(
+          alarm_name :: binary,
+          comparison_operator :: binary,
+          evaluation_periods :: integer,
+          metric_name :: binary,
+          namespace :: binary,
+          period :: integer,
+          threshold :: float,
+          statistic :: binary
+        ) :: ExAws.Operation.Query.t()
+  @spec put_metric_alarm(
+          alarm_name :: binary,
+          comparison_operator :: binary,
+          evaluation_periods :: integer,
+          metric_name :: binary,
+          namespace :: binary,
+          period :: integer,
+          threshold :: float,
+          statistic :: binary,
+          opts :: put_metric_alarm_opts
+        ) :: ExAws.Operation.Query.t()
+  def put_metric_alarm(
+        alarm_name,
+        comparison_operator,
+        evaluation_periods,
+        metric_name,
+        namespace,
+        period,
+        threshold,
+        statistic,
+        opts \\ []
+      ) do
     [
       {:alarm_name, alarm_name},
       {:comparison_operator, comparison_operator},
@@ -513,13 +557,14 @@ defmodule ExAws.Cloudwatch do
 
 
   """
-  @spec put_metric_data_input(metric_data :: [metric_datum, ...], namespace :: binary) :: ExAws.Operation.Query.t()
-  def put_metric_data_input(metric_data, namespace) do
+  @spec put_metric_data(metric_data :: [metric_datum, ...], namespace :: binary) ::
+          ExAws.Operation.Query.t()
+  def put_metric_data(metric_data, namespace) do
     [
       {:metric_data, metric_data},
       {:namespace, namespace}
     ]
-    |> build_request(:put_metric_data_input)
+    |> build_request(:put_metric_data)
   end
 
   ####################
@@ -537,10 +582,11 @@ defmodule ExAws.Cloudwatch do
 
     %ExAws.Operation.Query{
       path: "/",
-      params: params
-              |> filter_nil_params
-              |> Map.put("Action", action_string)
-              |> Map.put("Version", @version),
+      params:
+        params
+        |> filter_nil_params
+        |> Map.put("Action", action_string)
+        |> Map.put("Version", @version),
       service: :monitoring,
       action: action,
       parser: &ExAws.Cloudwatch.Parsers.parse/2
@@ -567,7 +613,7 @@ defmodule ExAws.Cloudwatch do
 
   defp format_param({:end_time, end_time}) do
     end_time
-    |> DateTime.to_iso8601
+    |> DateTime.to_iso8601()
     |> format(prefix: "EndTime")
   end
 
@@ -589,7 +635,7 @@ defmodule ExAws.Cloudwatch do
 
   defp format_param({:start_time, start_time}) do
     start_time
-    |> DateTime.to_iso8601
+    |> DateTime.to_iso8601()
     |> format(prefix: "StartTime")
   end
 
@@ -598,6 +644,6 @@ defmodule ExAws.Cloudwatch do
   end
 
   defp format_param({key, parameters}) do
-    format([ {key, parameters} ])
+    format([{key, parameters}])
   end
 end
