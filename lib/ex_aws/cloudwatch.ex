@@ -626,7 +626,9 @@ defmodule ExAws.Cloudwatch do
   end
 
   defp format_param({:metric_data, metric_data}) do
-    metric_data |> format(prefix: "MetricData.member")
+    metric_data
+    |> Enum.flat_map(&format_param/1)
+    |> ExAws.Utils.format(prefix: "MetricData.member")
   end
 
   defp format_param({:ok_actions, ok_actions}) do
