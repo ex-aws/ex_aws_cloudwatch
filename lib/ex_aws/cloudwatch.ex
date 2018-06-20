@@ -555,7 +555,30 @@ defmodule ExAws.Cloudwatch do
   * The SampleCount value of the statistic set is 1
   * The Min and the Max values of the statistic set are equal
 
-
+  ## Example
+      iex> metric_data = [
+      ...>   [metric_name: "My Metric Name", value: 1.0],
+      ...>   [metric_name: "My Metric Name", value: 1.5],
+      ...>   [metric_name: "My Metric Name", value: 2.0],
+      ...> ]
+      iex> ExAws.Cloudwatch.put_metric_data(metric_data, "My Name Space")
+      %ExAws.Operation.Query{
+        action: :put_metric_data,
+        params: %{
+          "Action" => "PutMetricData",
+          "MetricData.member.1.MetricName" => "My Metric Name",
+          "MetricData.member.1.Value" => 1.0,
+          "MetricData.member.2.MetricName" => "My Metric Name",
+          "MetricData.member.2.Value" => 1.5,
+          "MetricData.member.3.MetricName" => "My Metric Name",
+          "MetricData.member.3.Value" => 2.0,
+          "Namespace" => "My Name Space",
+          "Version" => "2010-08-01",
+        },
+        parser: &ExAws.Cloudwatch.Parsers.parse/2,
+        path: "/",
+        service: :monitoring,
+      }
   """
   @spec put_metric_data(metric_data :: [metric_datum, ...], namespace :: binary) ::
           ExAws.Operation.Query.t()
@@ -627,8 +650,13 @@ defmodule ExAws.Cloudwatch do
 
   defp format_param({:metric_data, metric_data}) do
     metric_data
-    |> Enum.flat_map(&format_param/1)
-    |> ExAws.Utils.format(prefix: "MetricData.member")
+    |> Enum.map(&{:metric_datum, &1})
+    |> Enum.map(&format_param/1)
+    |> format(prefix: "MetricData.member")
+  end
+
+  defp format_param({:metric_datum, metric_datum}) do
+    metric_datum |> Enum.flat_map(&format_param/1)
   end
 
   defp format_param({:ok_actions, ok_actions}) do
