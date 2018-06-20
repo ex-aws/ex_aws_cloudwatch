@@ -9,14 +9,14 @@ defmodule ExAws.CloudwatchTest do
   end
 
   test "#put_metric_data" do
+    {:ok, timestamp, 0} = DateTime.from_iso8601("2018-06-20T02:51:43Z")
     metric_datum = [
       metric_name: "My Metric Name",
       dimensions: [
         my_dim_1: "dim_1_value",
         my_dim_2: "dim_2_value"
       ],
-      # TODO #7 fix to be able to pass timestame value as DateTime struct
-      # timestamp: DateTime.from_unix!(1529463103),
+      timestamp: timestamp,
       unit: "Count",
       storage_resolution: 1,
 
@@ -43,7 +43,7 @@ defmodule ExAws.CloudwatchTest do
       "MetricData.member.1.StatisticValues.SampleCount" => 3,
       "MetricData.member.1.StatisticValues.Sum" => 15,
       "MetricData.member.1.StorageResolution" => 1,
-      # "MetricData.member.1.Timestamp" => 1529463103000,
+      "MetricData.member.1.Timestamp" => "2018-06-20T02:51:43Z",
       "MetricData.member.1.Unit" => "Count",
       "MetricData.member.1.Value" => 1.0,
       "MetricData.member.2.Dimensions.member.1.Name" => "my_dim_1",
@@ -56,7 +56,7 @@ defmodule ExAws.CloudwatchTest do
       "MetricData.member.2.StatisticValues.SampleCount" => 3,
       "MetricData.member.2.StatisticValues.Sum" => 15,
       "MetricData.member.2.StorageResolution" => 1,
-      # "MetricData.member.2.Timestamp" => 1529463103000,
+      "MetricData.member.2.Timestamp" => "2018-06-20T02:51:43Z",
       "MetricData.member.2.Unit" => "Count",
       "MetricData.member.2.Value" => 1.0,
       "MetricData.member.3.Dimensions.member.1.Name" => "my_dim_1",
@@ -69,7 +69,7 @@ defmodule ExAws.CloudwatchTest do
       "MetricData.member.3.StatisticValues.SampleCount" => 3,
       "MetricData.member.3.StatisticValues.Sum" => 15,
       "MetricData.member.3.StorageResolution" => 1,
-      # "MetricData.member.3.Timestamp" => 1529463103000,
+      "MetricData.member.3.Timestamp" => "2018-06-20T02:51:43Z",
       "MetricData.member.3.Unit" => "Count",
       "MetricData.member.3.Value" => 1.0,
       "Namespace" => "My Name Space",
