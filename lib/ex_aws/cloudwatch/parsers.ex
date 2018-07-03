@@ -99,7 +99,7 @@ if Code.ensure_loaded?(SweetXml) do
         |> SweetXml.xpath(
           ~x"//ErrorResponse",
           code: ~x"./Error/Code/text()"s,
-          message: ~x"./Error/Message/text()"s,
+          message: ~x"./Error/Message/text()"s
         )
       {:error, Map.put(resp, :body, parsed_body)}
     end
