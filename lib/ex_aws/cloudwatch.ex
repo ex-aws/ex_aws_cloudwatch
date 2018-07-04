@@ -34,7 +34,7 @@ defmodule ExAws.Cloudwatch do
           metric_name: binary,
           statistic_values: statistic_set,
           storage_resolution: integer,
-          timestamp: %DateTime{},
+          timestamp: DateTime.t,
           unit: binary,
           value: float
         ]
@@ -670,6 +670,12 @@ defmodule ExAws.Cloudwatch do
 
   defp format_param({:statistics, statistics}) do
     statistics |> format(prefix: "Statistics.member")
+  end
+
+  defp format_param({:timestamp, timestamp}) do
+    timestamp
+    |> DateTime.to_iso8601()
+    |> format(prefix: "Timestamp")
   end
 
   defp format_param({key, parameters}) do

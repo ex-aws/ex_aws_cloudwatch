@@ -93,13 +93,24 @@ if Code.ensure_loaded?(SweetXml) do
       {:ok, Map.put(resp, :body, parsed_body)}
     end
 
+    def parse({:ok, %{body: xml} = resp}, :put_metric_data) do
+      parsed_body =
+        xml
+        |> SweetXml.xpath(
+             ~x"//PutMetricDataResponse",
+             request_id: ~x"./ResponseMetadata/RequestId/text()"s
+           )
+
+      {:ok, Map.put(resp, :body, parsed_body)}
+    end
+
     def parse({:error, %{body: xml} = resp}, _) do
       parsed_body = 
         xml
         |> SweetXml.xpath(
           ~x"//ErrorResponse",
           code: ~x"./Error/Code/text()"s,
-          message: ~x"./Error/Message/text()"s,
+          message: ~x"./Error/Message/text()"s
         )
       {:error, Map.put(resp, :body, parsed_body)}
     end

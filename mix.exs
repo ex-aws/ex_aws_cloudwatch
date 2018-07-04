@@ -4,7 +4,7 @@ defmodule ExAws.Cloudwatch.Mixfile do
   def project do
     [
       app: :ex_aws_cloudwatch,
-      version: "2.0.1",
+      version: "2.0.3",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
