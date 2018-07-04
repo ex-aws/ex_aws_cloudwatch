@@ -20,6 +20,32 @@ end
 
 Documentation can be found at [https://hexdocs.pm/ex_aws_cloudwatch](https://hexdocs.pm/ex_aws_cloudwatch).
 
+## Testing
+
+### Live cloudwatch
+
+To run the tests against live cloudwatch:
+
+```
+AWS_ACCESS_KEY_ID={your-real-access-key-id} AWS_SECRET_ACCESS_KEY={your-real-secret-access-key} mix test
+```
+
+### Localstack
+
+To run the tests against localstack:
+
+First start localstack:
+
+```
+docker-compose up
+```
+
+Then run the tests:
+
+```
+AWS_ACCESS_KEY_ID='y' AWS_SECRET_ACCESS_KEY='x' MONITORING_HOST='localhost' MONITORING_SCHEME='http' MONITORING_PORT="4582"  mix test
+```
+
 ## License
 
 The MIT License (MIT)
