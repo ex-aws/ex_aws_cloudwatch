@@ -30,13 +30,15 @@ defmodule ExAws.Cloudwatch do
         ]
   @type dimension :: {name :: binary | atom, value :: binary}
   @type metric_datum :: [
+          counts: [non_neg_integer],
           dimensions: [dimension, ...],
           metric_name: binary,
           statistic_values: statistic_set,
           storage_resolution: integer,
           timestamp: DateTime.t,
           unit: binary,
-          value: number
+          value: number,
+          values: [number]
         ]
   @type statistic_set :: [
           maximum: number,
@@ -624,6 +626,10 @@ defmodule ExAws.Cloudwatch do
     alarm_names |> format(prefix: "AlarmNames.member")
   end
 
+  defp format_param({:counts, counts}) do
+    counts |> format(prefix: "Counts.member")
+  end
+
   defp format_param({:dashboard_names, dashboard_names}) do
     dashboard_names |> format(prefix: "DashboardNames.member")
   end
@@ -676,6 +682,10 @@ defmodule ExAws.Cloudwatch do
     timestamp
     |> DateTime.to_iso8601()
     |> format(prefix: "Timestamp")
+  end
+
+  defp format_param({:values, values}) do
+    values |> format(prefix: "Values.member")
   end
 
   defp format_param({key, parameters}) do
