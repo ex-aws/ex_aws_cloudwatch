@@ -36,13 +36,13 @@ defmodule ExAws.Cloudwatch do
           storage_resolution: integer,
           timestamp: DateTime.t,
           unit: binary,
-          value: float
+          value: number
         ]
   @type statistic_set :: [
-          maximum: float,
-          minimum: float,
-          sample_count: float,
-          sum: float
+          maximum: number,
+          minimum: number,
+          sample_count: number,
+          sum: number
         ]
 
   @doc """
