@@ -30,4 +30,16 @@ defmodule ExAws.Cloudwatch.IntegrationTest do
     {:ok, %{body: %{metrics: metrics}}} = ExAws.Cloudwatch.list_metrics() |> ExAws.request()
     assert is_list(metrics)
   end
+
+  test "check get_metric_widget_image is successful" do
+    metric_widget = %{
+      metrics: [
+        ["EC2", "CPUUtilization", "InstanceId", "i-a1b2c3d4"]
+      ]
+    } |> Poison.encode!
+    {:ok, result} = metric_widget
+                    |> ExAws.Cloudwatch.get_metric_widget_image()
+                    |> ExAws.request()
+    assert %{body: %{request_id: _, metric_widget_image: _}} = result
+  end
 end
