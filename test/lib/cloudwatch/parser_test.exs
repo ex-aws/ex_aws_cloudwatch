@@ -85,4 +85,23 @@ defmodule ExAws.Cloudwatch.ParserTest do
 
     assert alarm[:dimensions] == [%{name: "dimension-name", value: "dimension-value"}]
   end
+
+  test "#parsing a get_metric_widget_image response" do
+    rsp = """
+      <GetMetricWidgetImageResponse xmlns="http://monitoring.amazonaws.com/doc/2010-08-01/">
+        <GetMetricWidgetImageResult>
+          <MetricWidgetImage>iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...</MetricWidgetImage>
+        </GetMetricWidgetImageResult>
+        <ResponseMetadata>
+          <RequestId>6f0d4192-4d42-11e8-82c1-f539a07e0e3b</RequestId>
+        </ResponseMetadata>
+      </GetMetricWidgetImageResponse>
+    """
+    |> to_success
+
+    {:ok, %{body: parsed_doc}} = Parsers.parse(rsp, :get_metric_widget_image)
+
+    assert parsed_doc[:metric_widget_image] == "iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip..."
+    assert parsed_doc[:request_id] == "6f0d4192-4d42-11e8-82c1-f539a07e0e3b"
+  end
 end
