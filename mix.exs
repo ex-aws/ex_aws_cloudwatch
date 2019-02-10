@@ -8,6 +8,8 @@ defmodule ExAws.Cloudwatch.Mixfile do
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
+      description: description(),
+      package: package(),
       deps: deps()
     ]
   end
@@ -22,13 +24,26 @@ defmodule ExAws.Cloudwatch.Mixfile do
     ]
   end
 
+  defp description() do
+    "Cloudwatch module for https://github.com/ex-aws/ex_aws"
+  end
+
+  defp package() do
+    [
+      licenses: ["MIT"],
+      maintainers: ["Ben Wilson", "Andrea Maria Piana"],
+      links: %{"GitHub" => "https://github.com/ex-aws/ex_aws_cloudwatch"}
+    ]
+
+  end
+
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
       {:hackney, ">= 0.0.0", only: [:dev, :test]},
       {:sweet_xml, ">= 0.0.0", only: [:dev, :test]},
       {:poison, ">= 0.0.0", only: [:dev, :test]},
-      {:ex_doc, "~> 0.16", only: [:dev, :test]},
+      {:ex_doc, "~> 0.18", only: [:dev, :test]},
       ex_aws(),
     ]
   end
