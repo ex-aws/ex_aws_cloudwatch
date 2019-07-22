@@ -6,11 +6,11 @@ if Code.ensure_loaded?(SweetXml) do
       parsed_body =
         xml
         |> SweetXml.xpath(
-             ~x"//DescribeAlarmsResponse",
-             alarms: alarm_xml_description(),
-             next_token: ~x"./DescribeAlarmsResult/NextToken/text()"s,
-             request_id: ~x"./ResponseMetadata/RequestId/text()"s
-           )
+          ~x"//DescribeAlarmsResponse",
+          alarms: alarm_xml_description(),
+          next_token: ~x"./DescribeAlarmsResult/NextToken/text()"s,
+          request_id: ~x"./ResponseMetadata/RequestId/text()"s
+        )
 
       {:ok, Map.put(resp, :body, parsed_body)}
     end
@@ -19,11 +19,11 @@ if Code.ensure_loaded?(SweetXml) do
       parsed_body =
         xml
         |> SweetXml.xpath(
-             ~x"//DescribeAlarmHistoryResponse",
-             alarm_history: alarm_history_xml_description(),
-             next_token: ~x"./DescribeAlarmHistoryResult/NextToken/text()"s,
-             request_id: ~x"./ResponseMetadata/RequestId/text()"s
-           )
+          ~x"//DescribeAlarmHistoryResponse",
+          alarm_history: alarm_history_xml_description(),
+          next_token: ~x"./DescribeAlarmHistoryResult/NextToken/text()"s,
+          request_id: ~x"./ResponseMetadata/RequestId/text()"s
+        )
 
       {:ok, Map.put(resp, :body, parsed_body)}
     end
@@ -32,12 +32,12 @@ if Code.ensure_loaded?(SweetXml) do
       parsed_body =
         xml
         |> SweetXml.xpath(
-             ~x"//GetDashboardResponse",
-             dashboard_arn: ~x"./GetDashboardResult/DashboardArn/text()"s,
-             dashboard_body: ~x"./GetDashboardResult/DashboardBody/text()"s,
-             dashboard_name: ~x"./GetDashboardResult/DashboardName/text()"s,
-             request_id: ~x"./ResponseMetadata/ReqeustId/text()"s
-           )
+          ~x"//GetDashboardResponse",
+          dashboard_arn: ~x"./GetDashboardResult/DashboardArn/text()"s,
+          dashboard_body: ~x"./GetDashboardResult/DashboardBody/text()"s,
+          dashboard_name: ~x"./GetDashboardResult/DashboardName/text()"s,
+          request_id: ~x"./ResponseMetadata/ReqeustId/text()"s
+        )
 
       {:ok, Map.put(resp, :body, parsed_body)}
     end
@@ -46,11 +46,11 @@ if Code.ensure_loaded?(SweetXml) do
       parsed_body =
         xml
         |> SweetXml.xpath(
-             ~x"//GetMetricStatisticsResponse",
-             metric_statistics: metric_statistics_description(),
-             label: ~x"./GetMetricStatisticsResult/Label/text()"s,
-             request_id: ~x"./ResponseMetadata/RequestId/text()"s
-           )
+          ~x"//GetMetricStatisticsResponse",
+          metric_statistics: metric_statistics_description(),
+          label: ~x"./GetMetricStatisticsResult/Label/text()"s,
+          request_id: ~x"./ResponseMetadata/RequestId/text()"s
+        )
 
       {:ok, Map.put(resp, :body, parsed_body)}
     end
@@ -59,11 +59,11 @@ if Code.ensure_loaded?(SweetXml) do
       parsed_body =
         xml
         |> SweetXml.xpath(
-             ~x"//ListDashboardsResponse",
-             dashboards: dashboards_description(),
-             next_token: ~x"./ListDashboardsResult/NextToken/text()"s,
-             request_id: ~x"./ResponseMetadata/RequestId/text()"s
-           )
+          ~x"//ListDashboardsResponse",
+          dashboards: dashboards_description(),
+          next_token: ~x"./ListDashboardsResult/NextToken/text()"s,
+          request_id: ~x"./ResponseMetadata/RequestId/text()"s
+        )
 
       {:ok, Map.put(resp, :body, parsed_body)}
     end
@@ -72,11 +72,11 @@ if Code.ensure_loaded?(SweetXml) do
       parsed_body =
         xml
         |> SweetXml.xpath(
-             ~x"//ListMetricsResponse",
-             metrics: metrics_description(),
-             next_token: ~x"./ListMetricsResult/NextToken/text()"s,
-             request_id: ~x"./ResponseMetadata/RequestId/text()"s
-           )
+          ~x"//ListMetricsResponse",
+          metrics: metrics_description(),
+          next_token: ~x"./ListMetricsResult/NextToken/text()"s,
+          request_id: ~x"./ResponseMetadata/RequestId/text()"s
+        )
 
       {:ok, Map.put(resp, :body, parsed_body)}
     end
@@ -85,10 +85,10 @@ if Code.ensure_loaded?(SweetXml) do
       parsed_body =
         xml
         |> SweetXml.xpath(
-             ~x"//PutDashboardResponse",
-             dashboard_messages: dashboard_messages_description(),
-             request_id: ~x"./ResponseMetadata/RequestId/text()"s
-           )
+          ~x"//PutDashboardResponse",
+          dashboard_messages: dashboard_messages_description(),
+          request_id: ~x"./ResponseMetadata/RequestId/text()"s
+        )
 
       {:ok, Map.put(resp, :body, parsed_body)}
     end
@@ -97,21 +97,22 @@ if Code.ensure_loaded?(SweetXml) do
       parsed_body =
         xml
         |> SweetXml.xpath(
-             ~x"//PutMetricDataResponse",
-             request_id: ~x"./ResponseMetadata/RequestId/text()"s
-           )
+          ~x"//PutMetricDataResponse",
+          request_id: ~x"./ResponseMetadata/RequestId/text()"s
+        )
 
       {:ok, Map.put(resp, :body, parsed_body)}
     end
 
     def parse({:error, %{body: xml} = resp}, _) do
-      parsed_body = 
+      parsed_body =
         xml
         |> SweetXml.xpath(
           ~x"//ErrorResponse",
           code: ~x"./Error/Code/text()"s,
           message: ~x"./Error/Message/text()"s
         )
+
       {:error, Map.put(resp, :body, parsed_body)}
     end
 
@@ -161,13 +162,13 @@ if Code.ensure_loaded?(SweetXml) do
     defp metric_statistics_description do
       [
         ~x"./GetMetricStatisticsResult/Datapoints/member"l,
-        average: ~x"./Average/text()"f,
+        average: ~x"./Average/text()"of,
         # TODO probably fix this
         extended_statistics: ~x"./ExtendedStatistics/text()"m,
-        maximum: ~x"./Maximum/text()"f,
-        minimum: ~x"./Minimum/text()"f,
-        sample_count: ~x"./SampleCount/text()"f,
-        sum: ~x"./Sum/text()"f,
+        maximum: ~x"./Maximum/text()"of,
+        minimum: ~x"./Minimum/text()"of,
+        sample_count: ~x"./SampleCount/text()"of,
+        sum: ~x"./Sum/text()"of,
         timestamp: ~x"./Timestamp/text()"s,
         unit: ~x"./Unit/text()"s
       ]
