@@ -161,13 +161,13 @@ if Code.ensure_loaded?(SweetXml) do
     defp metric_statistics_description do
       [
         ~x"./GetMetricStatisticsResult/Datapoints/member"l,
-        average: ~x"./Average/text()"f,
+        average: ~x"./Average/text()"F,
         # TODO probably fix this
         extended_statistics: ~x"./ExtendedStatistics/text()"m,
-        maximum: ~x"./Maximum/text()"f,
-        minimum: ~x"./Minimum/text()"f,
-        sample_count: ~x"./SampleCount/text()"f,
-        sum: ~x"./Sum/text()"f,
+        maximum: ~x"./Maximum/text()"F,
+        minimum: ~x"./Minimum/text()"F,
+        sample_count: ~x"./SampleCount/text()"F,
+        sum: ~x"./Sum/text()"F,
         timestamp: ~x"./Timestamp/text()"s,
         unit: ~x"./Unit/text()"s
       ]
