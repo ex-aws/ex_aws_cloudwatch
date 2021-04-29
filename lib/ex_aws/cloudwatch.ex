@@ -566,6 +566,7 @@ defmodule ExAws.Cloudwatch do
       iex> ExAws.Cloudwatch.put_metric_data(metric_data, "My Name Space")
       %ExAws.Operation.Query{
         action: :put_metric_data,
+        content_encoding: "gzip",
         params: %{
           "Action" => "PutMetricData",
           "MetricData.member.1.MetricName" => "My Metric Name",
@@ -589,20 +590,20 @@ defmodule ExAws.Cloudwatch do
       {:metric_data, metric_data},
       {:namespace, namespace}
     ]
-    |> build_request(:put_metric_data)
+    |> build_request(:put_metric_data, "gzip")
   end
 
   ####################
   # Helper Functions #
   ####################
 
-  defp build_request(opts, action) do
+  defp build_request(opts, action, content_encoding \\ "identity") do
     opts
     |> Enum.flat_map(&format_param/1)
-    |> request(action)
+    |> request(action, content_encoding)
   end
 
-  defp request(params, action) do
+  defp request(params, action, content_encoding) do
     action_string = action |> Atom.to_string() |> Macro.camelize()
 
     %ExAws.Operation.Query{
@@ -612,6 +613,7 @@ defmodule ExAws.Cloudwatch do
         |> filter_nil_params
         |> Map.put("Action", action_string)
         |> Map.put("Version", @version),
+      content_encoding: content_encoding,
       service: :monitoring,
       action: action,
       parser: &ExAws.Cloudwatch.Parsers.parse/2
